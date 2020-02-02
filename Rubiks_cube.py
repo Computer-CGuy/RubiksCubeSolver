@@ -39,6 +39,18 @@ def clockwise(x,y,array):
     #ret[(x),y:(y+3)]=array[x+2:(x-1):-1,y]
     ret[x:x+3,y]=array[x+2,y:y+3]
     return ret
+def aclockwise(x,y,array):
+    ret = np.copy(array)
+    #ret[(x),(y-1):(y+2)]=array[x:(x+3),y]
+    ret[(x):x+3,y]=array[x,y:(y+3)]
+    ret[x,y:(y+3)]=array[x:(x+3),(y+2)]
+    #ret[(x),y:y+3]=array[x:(x+3),(y+2)]
+    #print(ret,x)
+    #ret[(x+2),(y+2):(y-1):-1]=array[x:x+3,y+2]
+    ret[x+2:x-1:-1,y+2]=array[(x+2),(y):(y+3)]
+    #ret[(x),y:(y+3)]=array[x+2:(x-1):-1,y]
+    ret[x+2,y:y+3]=array[x:x+3,y]
+    return ret
 def clockwiseU(x,y,array):
     ret = np.copy(array)
     #ret[(x),(y-1):(y+2)]=array[x:(x+3),y]
@@ -59,6 +71,18 @@ def clockwiseU(x,y,array):
    # ret[3:6,0]=array[5,0:3]
     #ret[3,0:3]=array[5:2:-1,0]
     #ret[3:6,2]=array[3,0:3]
+def aclockwiseU(x,y,array):
+    ret = np.copy(array)
+    #ret[(x),(y-1):(y+2)]=array[x:(x+3),y]
+    ret[(x):x+3,y]=array[x,y:(y+3)]
+    ret[x,y:(y+3)]=array[x:(x+3),(y+2)]
+    #ret[(x),y:y+3]=array[x:(x+3),(y+2)]
+    #print(ret,x)
+    ret[x:x+3,y+2]=array[(x+2),(y+2):(y-1):-1]
+    #ret[(x+2),(y):(y+3)]=array[x+2:x-1:-1,y+2]
+    #ret[(x),y:(y+3)]=array[x+2:(x-1):-1,y]
+    ret[x+2,y:y+3]=array[x:x+3,y]
+    return ret
 def R(array):
     ret = np.copy(array)
     ret[0:3,5]=array[3:6,5]
@@ -71,6 +95,14 @@ def R(array):
     ret[5,9:5:-1]=array[3:6,8]
     ret[3:6,6]=array[5,6:9]"""
     ret = clockwise(3,6,ret)
+    return ret
+def Ri(array):
+    ret = np.copy(array)
+    ret[3:6,5]=array[0:3,5]
+    ret[6:9,5]=array[3:6,5]
+    ret[9:12,5]=array[6:9,5]
+    ret[0:3,5]=array[9:12,5]
+    ret = aclockwise(3,6,ret)
     return ret
 def L(array):
     ret = np.copy(array)
@@ -86,6 +118,14 @@ def L(array):
     #ret[3,0:3]=array[5:2:-1,0]
     #ret[3:6,2]=array[3,0:3]
     return ret
+def Li(array):
+    ret = np.copy(array)
+    ret = aclockwise(3,0,ret)
+    ret[9:12,3]=array[0:3,3]
+    ret[0:3,3]=array[3:6,3]
+    ret[3:6,3]=array[6:9,3]
+    ret[6:9,3]=array[9:12,3]
+    return ret
 def D(array):
     ret = np.copy(array)
     ret[5,3:6]=array[5,0:3]
@@ -93,6 +133,14 @@ def D(array):
     ret[9,3:6]=array[5,9:5:-1]
     ret[5,0:3]=array[9,5:2:-1]
     ret = clockwise(6,3,ret)
+    return ret
+def Di(array):
+    ret = np.copy(array)
+    ret[5,0:3]=array[5,3:6]
+    ret[5,3:6]=array[5,6:9]
+    ret[5,9:5:-1]=array[9,3:6]
+    ret[9,5:2:-1]=array[5,0:3]
+    ret = aclockwise(6,3,ret)
     return ret
 def U(array):
     ret = np.copy(array)
@@ -103,6 +151,15 @@ def U(array):
     ret[3,6:9]=array[11,5:2:-1]
 
     return ret
+def Ui(array):
+    ret = np.copy(array)
+    ret = aclockwiseU(0,3,ret)
+    ret[3,6:9]=array[3,3:6]
+    ret[3,3:6]=array[3,0:3]
+    ret[3,0:3]=array[11,5:2:-1]
+    ret[11,5:2:-1]=array[3,6:9]
+
+    return ret
 def F(array):
     ret = np.copy(array)
     ret = clockwise(3,3,ret)
@@ -111,6 +168,14 @@ def F(array):
     ret[2,3:6]=array[5:2:-1,2]
     ret[6,3:6]=array[5:2:-1,6]
     return ret
+def Fi(array):
+    ret = np.copy(array)
+    ret = aclockwise(3,3,ret)
+    ret[2,3:6]=array[3:6,6]
+    ret[6,3:6]=array[3:6,2]
+    ret[5:2:-1,2]=array[2,3:6]
+    ret[5:2:-1,6]=array[6,3:6]
+    return ret
 def B(array):
     ret = np.copy(array)
     ret = clockwise(9,3,ret)
@@ -118,6 +183,14 @@ def B(array):
     ret[8,3:6]=array[3:6,0]
     ret[0,3:6]=array[3:6,8]
     ret[5:2:-1,0]=array[0,3:6]
+    return ret
+def Bi(array):
+    ret = np.copy(array)
+    ret = aclockwise(9,3,ret)
+    ret[8,3:6]=array[5:2:-1,8]
+    ret[3:6,0]=array[8,3:6]
+    ret[3:6,8]=array[0,3:6]
+    ret[0,3:6]=array[5:2:-1,0]
     return ret
 def solve(SOP,solved):
     a = [R,L,D,U,F,B]
